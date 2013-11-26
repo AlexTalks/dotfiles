@@ -19,7 +19,8 @@ script/bootstrap
 This will symlink the appropriate files in `.dotfiles` to your home directory.
 Everything is configured and tweaked within `~/.dotfiles`.
 
-The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
+The main file you'll want to change right off the bat is `bash/bashrc.symlink` 
+and `bash/profile.symlink`, or `zsh/zshrc.symlink` if you use zsh,
 which sets up a few paths that'll be different on your particular machine.
 
 `dot` is a simple script that installs some dependencies, sets sane OS X
@@ -52,7 +53,7 @@ There's a few special files in the hierarchy.
   but still keep those autoloaded files in your home directory. These get
   symlinked in when you run `script/bootstrap`.
 
-## disclaimer
+## zsh disclaimer
 
 As I currently don't use zsh, the zsh config is just left for reference and none
 of the zsh files are sourced.
