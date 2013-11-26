@@ -1,5 +1,7 @@
 # alextalks does dotfiles!
 
+![Output sample](http://clk.pw/bunny)
+
 ## dotfiles
 
 Your dotfiles are how you personalize your system. These are mine.
