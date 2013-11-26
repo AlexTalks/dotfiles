@@ -15,9 +15,14 @@ if [ -r /usr/local/share/python ]; then
     export PATH=$PATH:/usr/local/share/python
 fi
 
+# for ruby gems
+if [ -r ~/.gem/ruby/2.0.0/bin ]; then
+    export PATH=$PATH:$HOME/.gem/ruby/2.0.0/bin
+fi
+
 # last, for dotfiles bin
 if [ -r ~/.dotfiles/bin ]; then
-    export PATH=$PATH:~/.dotfiles/bin
+    export PATH=$PATH:$HOME/.dotfiles/bin
 fi
 
 # NOTE: place(s) where new installs are located:
@@ -29,6 +34,6 @@ fi
 
 ##### MESSAGE OF THE DAY! #####
 if [ -n "$MOTD" ]; then
-    $MOTD
+    eval $MOTD
 fi
 ##### MESSAGE OF THE DAY! #####
