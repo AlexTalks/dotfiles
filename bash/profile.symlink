@@ -1,5 +1,5 @@
 #
-# AlexTalks's .profile
+# Alex Sarkesian's .profile
 #
 # this is sourced on login shells
 # Set/export main environment variables
@@ -13,6 +13,11 @@ export PATH=.:/usr/local/bin:$HOME/bin:$PATH
 # for pip executables
 if [ -r /usr/local/share/python ]; then
     export PATH=$PATH:/usr/local/share/python
+fi
+
+# last, for dotfiles bin
+if [ -r ~/.dotfiles/bin ]; then
+    export PATH=$PATH:~/.dotfiles/bin
 fi
 
 # NOTE: place(s) where new installs are located:

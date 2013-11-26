@@ -1,5 +1,5 @@
 #
-# AlexTalks's .gitconfig
+# Alex Sarkesian's .gitconfig
 #
 
 [user]
@@ -45,6 +45,6 @@
 	cmd = /Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 	trustExitCode = true
 
-# is this needed?
+# likely not needed
 #[credential]
 #        helper = GIT_CREDENTIAL_HELPER
