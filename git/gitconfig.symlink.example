@@ -1,38 +1,50 @@
-# Sample gitconfig
+#
+# AlexTalks's .gitconfig
 #
 
-[hub]
-        protocol = https
 [user]
         name = AUTHORNAME
         email = AUTHOREMAIL
-[credential]
-        helper = GIT_CREDENTIAL_HELPER
-[alias]
-        co = checkout
-        promote = !$ZSH/bin/git-promote
-        wtf     = !$ZSH/bin/git-wtf
-        rank-contributers = !$ZSH/bin/git-rank-contributers
-        count   = !git shortlog -sn
 [color]
-        diff = auto
-        status = auto
-        branch = auto
-        ui = true
-[core]
-        excludesfile = ~/.gitignore
-        editor = vim
-[apply]
-        whitespace = nowarn
-[mergetool]
-        keepBackup = false
-[difftool]
-        prompt = false
-[help]
-        autocorrect = 1
+	diff = auto
+	status = auto
+	branch = auto
 [push]
-        # See `git help config` (search for push.default)
-        # for more information on different options of the below setting.
-        #
-        # Setting to git 2.0 default to surpress warning message
-        default = simple
+	default = matching
+[log]
+        abbrevCommit = true
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	odiff = difftool --tool=opendiff -y
+	omerge = mergetool --tool=opendiff -y
+        pda = "!git diffall --tool=p4merge"
+	pdiff = difftool --tool=p4merge -y
+	pmerge = mergetool --tool=p4merge -y
+        sshow = show --abbrev-commit --oneline --name-status
+        slog = log --oneline --name-status
+        upshow = log --oneline --name-status ..origin
+        uplist = diff --name-status origin
+        subclean = submodule foreach --recursive git clean -x -f -d -f
+        subcheckout = submodule update --recursive --init
+        fullclean = clean -x -f -d -f
+[init]
+	templatedir = ~/.git_template
+[core]
+	excludesfile = ~/.gitignore_global
+        editor = vim
+
+# Just for OS X :-)
+[difftool "p4merge"]
+	path = "/Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge"
+[mergetool "p4merge"]
+	path = "/Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge"
+[difftool "sourcetree"]
+	cmd = /Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	trustExitCode = true
+
+# is this needed?
+#[credential]
+#        helper = GIT_CREDENTIAL_HELPER

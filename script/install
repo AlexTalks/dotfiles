@@ -2,6 +2,19 @@
 #
 # Run all dotfiles installers.
 
+warn () {
+  printf "\r  [ \033[0;33m!\033[0m ] $1\n"
+}
+
+
+warn 'install things your own damn self!  disabled for now'
+exit 0
+
+
+########################################
+##      Disabled currently...         ##
+########################################
+
 set -e
 
 cd "$(dirname $)"/..

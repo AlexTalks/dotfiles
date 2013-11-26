@@ -1,0 +1,42 @@
+#
+# AlexTalks's .bashrc
+#
+# this is sourced on non-login shells
+# (also manually in .profile)
+# eg, sourced on every new shell
+
+source /etc/bashrc
+
+# Aliases
+if [ "`uname -s`" == "Darwin" ]; then
+	alias ls="ls -G"
+	alias console='/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal'
+        alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+else
+	alias ls="ls --color"
+fi
+alias grep="grep --color"
+alias less="less -r"
+alias xterm='xterm -ls'
+alias cdb='cd $OLDPWD'
+
+psef() {
+    ps -ef | head -1
+    ps -ef | grep -v "grep --color -i $@" | grep -i $@
+}
+
+psaux() {
+    ps aux | head -1
+    ps aux | grep -v "grep --color -i $@" | grep -i $@ 
+}
+
+# Local, private settings
+[ -r ~/.localrc ] && source ~/.localrc
+
+# everybody loves bash autocomplete!
+if [ -r /usr/local/etc/bash_completion ]; then
+    source /usr/local/etc/bash_completion
+else 
+    [ -r /etc/bash_completion ] && source /etc/bash_completion
+fi
+

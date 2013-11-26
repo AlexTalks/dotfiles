@@ -1,4 +1,31 @@
-syntax on
+" Look and feel
+set nocompatible
+set showcmd
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Tab behavior
+set shiftwidth=4
+set expandtab
+set smarttab
+set autoindent
+set smartindent
+
+" Search
+set ignorecase
+set smartcase
+
+" Wrap lines
+set textwidth=80
+
+" Programming features
+syntax on       " syntax highlighting
+set showmatch   " show matching braces
+
+" Line numbers!
+set ruler
+
+" CPP Complete!
+set nocp
+filetype plugin on
+
+" Ctags
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
