@@ -14,7 +14,8 @@ set ignorecase
 set smartcase
 
 " Wrap lines
-set textwidth=80
+" this might only be good for C++
+"set textwidth=80
 
 " Programming features
 syntax on       " syntax highlighting

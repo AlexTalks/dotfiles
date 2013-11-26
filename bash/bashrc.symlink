@@ -5,6 +5,9 @@
 # (also manually in .profile)
 # eg, sourced on every new shell
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 # get global bashrc settings
 if [ -r /etc/bashrc ]; then
     source /etc/bashrc  # OSX Style
@@ -20,10 +23,16 @@ if [ "`uname -s`" == "Darwin" ]; then
 else
 	alias ls="ls --color"
 fi
+
 alias grep="grep --color"
 alias less="less -r"
 alias xterm='xterm -ls'
 alias cdb='cd $OLDPWD'
+
+# debian specific commands
+if [ -e /etc/debian_version ] && [ -r ~/.debrc ]; then
+    source ~/.debrc
+fi
 
 psef() {
     ps -ef | head -1
