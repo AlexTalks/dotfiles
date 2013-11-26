@@ -5,7 +5,12 @@
 # (also manually in .profile)
 # eg, sourced on every new shell
 
-source /etc/bashrc
+# get global bashrc settings
+if [ -r /etc/bashrc ]; then
+    source /etc/bashrc  # OSX Style
+else
+    [ -r /etc/bash.bashrc ] && source /etc/bash.bashrc  # Debian style
+fi
 
 # Aliases
 if [ "`uname -s`" == "Darwin" ]; then
