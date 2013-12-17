@@ -15,20 +15,8 @@ set-window-option -g mode-mouse on
 
 # Bindings {{{
 # Toggle mouse on with C-b m
-bind m \
-    set-option -g mouse-select-pane on \;\
-    set-option -g mouse-select-window on \;\
-    set-option -g mouse-resize-pane on \;\
-    set-window-option -g mode-mouse on \;\
-    display 'Mouse: ON'
-
-bind M \
-    set-option -g mouse-select-pane off \;\
-    set-option -g mouse-select-window off \;\
-    set-option -g mouse-resize-pane off \;\
-    set-window-option -g mode-mouse off \;\
-    display 'Mouse: OFF'
-
+bind m set-option -g mouse-select-pane on \; set-option -g mouse-select-window on \; set-option -g mouse-resize-pane on \; set-window-option -g mode-mouse on \; display 'Mouse: ON'
+bind M set-option -g mouse-select-pane off \; set-option -g mouse-select-window off \; set-option -g mouse-resize-pane off \; set-window-option -g mode-mouse off \; display 'Mouse: OFF'
 bind C-w select-layout even-horizontal
 bind-key r source-file ~/.tmux.conf
 # }}}
