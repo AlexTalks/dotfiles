@@ -18,10 +18,9 @@ set smartcase
 "set textwidth=80
 
 " Mouse support
-" not necessary for MacVim or modern VIMs
-"if has("mouse")
-"    set mouse=a
-"endif
+if has("mouse")
+    set mouse=a
+endif
 
 " Clipboard support
 set clipboard=unnamed
