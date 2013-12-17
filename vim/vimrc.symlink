@@ -17,6 +17,14 @@ set smartcase
 " this might only be good for C++
 "set textwidth=80
 
+" Mouse support
+if has("mouse")
+    set mouse=a
+endif
+
+" Clipboard support
+set clipboard=unnamed
+
 " Programming features
 syntax on       " syntax highlighting
 set showmatch   " show matching braces
