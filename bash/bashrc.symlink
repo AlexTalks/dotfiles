@@ -54,3 +54,5 @@ else
     [ -r /etc/bash_completion ] && source /etc/bash_completion
 fi
 
+# Python startup
+export PYTHONSTARTUP=$HOME/.pythonrc

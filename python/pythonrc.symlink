@@ -1,0 +1,15 @@
+try:
+    from rlcompleter import readline
+    import os
+    import atexit
+
+    readline.parse_and_bind('C-SPC: complete')
+    histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+    try:
+        readline.read_history_file(histfile)
+    except:
+        pass
+    atexit.register(readline.write_history_file, histfile)
+    del readline, os, atexit, histfile
+except:
+    pass
