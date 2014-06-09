@@ -3,3 +3,6 @@
 *~
 *.swp
 *.rbc
+.idea
+*.iml
+xcuserdata/
