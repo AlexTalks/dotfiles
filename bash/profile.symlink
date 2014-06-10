@@ -20,6 +20,11 @@ if [ -r ~/.gem/ruby/2.0.0/bin ]; then
     export PATH=$PATH:$HOME/.gem/ruby/2.0.0/bin
 fi
 
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
 # last, for dotfiles bin
 if [ -r ~/.dotfiles/bin ]; then
     export PATH=$PATH:$HOME/.dotfiles/bin
