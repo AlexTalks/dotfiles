@@ -23,8 +23,6 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 # last, for dotfiles bin
 if [ -r ~/.dotfiles/bin ]; then
     export PATH=$PATH:$HOME/.dotfiles/bin
@@ -33,6 +31,11 @@ fi
 # NOTE: place(s) where new installs are located:
 ## /usr/local/bin       // local installs, by user
 ## /usr/bin             // system installs, by root
+
+# Java settings
+if [ "`uname -s`" == "Darwin" ]; then
+    export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+fi
 
 # source .bashrc last, so will be sourced on all login shells 
 [ -r ~/.bashrc ] && source ~/.bashrc
