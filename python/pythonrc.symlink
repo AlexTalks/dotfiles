@@ -4,6 +4,7 @@ try:
     import atexit
 
     readline.parse_and_bind('C-SPC: complete')
+    print 'Autocomplete enabled; CTRL-SPACE to activate'
     histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
     try:
         readline.read_history_file(histfile)
