@@ -34,8 +34,12 @@ fi
 
 # Java settings
 if [ "`uname -s`" == "Darwin" ]; then
-    export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+    export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 fi
+
+# CCACHE settings
+export CCACHE_CPP2=1
+export CCACHE_COMPRESS=1
 
 # source .bashrc last, so will be sourced on all login shells 
 [ -r ~/.bashrc ] && source ~/.bashrc
