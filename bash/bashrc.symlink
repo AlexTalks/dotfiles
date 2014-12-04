@@ -29,6 +29,50 @@ alias less="less -r"
 alias xterm='xterm -ls'
 alias cdb='cd $OLDPWD'
 
+# GVIM Wrapper!
+vim-gui-server() {
+    local PROGRAM="$1"
+    local BIN=$(which $PROGRAM)
+    shift
+
+    if [ "$1" == "-n" ] || [ "$1" == "--normal" ]; then
+        shift
+        eval "$BIN $@"
+        return $?
+    fi
+
+    if [ "$1" == "--print" ]; then
+        shift
+        local BIN="echo $BIN"
+    fi
+
+    if [ "$1" == "--usage" ]; then
+        echo "Usage: $PROGRAM [-n] [--print] [file...]  open files, tabbed, in a window specific to the current terminal"
+        echo "Options:"
+        echo " -n, --normal Execute gvim command without server arguments"
+        echo " --print      Print gvim command with full arguments"
+        echo " --usage      Print this message and exit"
+        return 1
+    fi
+
+    local SERVERNAME="$PROGRAM `tty`"
+    local VIM_ARGS="--servername \"$SERVERNAME\""
+    $PROGRAM --serverlist | grep -q -i "$SERVERNAME"
+    if [ $? -eq 0 ]; then
+        if [ $# -ge 1 ]; then
+            local VIM_ARGS="$VIM_ARGS --remote-tab-silent"
+        else
+            local VIM_ARGS="$VIM_ARGS --remote-send \"<C-\><C-N>:call remote_foreground(\\\"$SERVERNAME\\\")<CR>\""
+        fi
+    fi
+
+    local cmd="$BIN $VIM_ARGS $@"
+    eval $cmd
+    return $?
+}
+
+alias gvim="vim-gui-server gvim"
+
 # debian specific commands
 if [ -e /etc/debian_version ] && [ -r ~/.debrc ]; then
     source ~/.debrc
