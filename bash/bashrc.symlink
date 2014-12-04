@@ -30,9 +30,17 @@ alias xterm='xterm -ls'
 alias cdb='cd $OLDPWD'
 
 # GVIM Wrapper!
+# Usage: gvim [option] [file...]  open files, tabbed, in a shared window (default one per terminal)
+# Options: (only one can be used)
+#  -d, --dir                Open files in a window specific to the current working directory
+#  -n, --normal             Execute command without server arguments
+#  -s, --server <name>      Open files in the window named <name>
+#  --print                  Print command with full arguments
+#  --usage                  Print this message and exit
 vim-gui-server() {
     local PROGRAM="$1"
     local BIN=$(which $PROGRAM)
+    local NAME="`tty`"
     shift
 
     if [ "$1" == "-n" ] || [ "$1" == "--normal" ]; then
@@ -42,20 +50,30 @@ vim-gui-server() {
     fi
 
     if [ "$1" == "--print" ]; then
-        shift
         local BIN="echo $BIN"
+        shift
+    fi
+
+    if [ "$1" == "-d" ] || [ "$1" == "--dir" ]; then
+        local NAME="`pwd`"
+        shift
+    elif [ "$1" == "-s" ] || [ "$1" == "--server" ]; then
+        local NAME="$2"
+        shift 2
     fi
 
     if [ "$1" == "--usage" ]; then
-        echo "Usage: $PROGRAM [-n] [--print] [file...]  open files, tabbed, in a window specific to the current terminal"
-        echo "Options:"
-        echo " -n, --normal Execute gvim command without server arguments"
-        echo " --print      Print gvim command with full arguments"
-        echo " --usage      Print this message and exit"
+        echo "Usage: $PROGRAM [option] [file...]  open files, tabbed, in a shared window (default one per terminal)"
+        echo "Options: (only one can be used)"
+        echo " -d, --dir                Open files in a window specific to the current working directory"
+        echo " -n, --normal             Execute command without server arguments"
+        echo " -s, --server <name>      Open files in the window named <name>"
+        echo " --print                  Print command with full arguments"
+        echo " --usage                  Print this message and exit"
         return 1
     fi
 
-    local SERVERNAME="$PROGRAM `tty`"
+    local SERVERNAME="$PROGRAM $NAME"
     local VIM_ARGS="--servername \"$SERVERNAME\""
     $PROGRAM --serverlist | grep -q -i "$SERVERNAME"
     if [ $? -eq 0 ]; then
