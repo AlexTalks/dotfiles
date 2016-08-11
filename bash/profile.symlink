@@ -8,7 +8,7 @@ typeset -x \
 EDITOR=vim \
 PAGER=less
 
-export PATH=.:/usr/local/bin:$HOME/bin:$PATH
+export PATH=.:$HOME/bin:/usr/local/bin:$PATH
 
 # for pip executables
 if [ -r /usr/local/share/python ]; then
@@ -20,13 +20,18 @@ if [ -r ~/.gem/ruby/2.0.0/bin ]; then
     export PATH=$PATH:$HOME/.gem/ruby/2.0.0/bin
 fi
 
+if [ -r ~/.rvm/gems/ruby-2.1.1/bin ]; then
+    export PATH=$PATH:$HOME/.rvm/gems/ruby-2.1.1/bin
+fi
+
+
 # for npm executables
 if [ -r /usr/local/share/npm/bin ]; then
     export PATH=$PATH:/usr/local/share/npm/bin
 fi
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH=$PATH:/usr/local/heroku/bin
 
 # last, for dotfiles bin
 if [ -r ~/.dotfiles/bin ]; then

@@ -13,6 +13,9 @@ set smartindent
 set ignorecase
 set smartcase
 
+" Pathogen package manager
+" call pathogen#infect()
+
 " Wrap lines
 " this might only be good for C++
 "set textwidth=80
