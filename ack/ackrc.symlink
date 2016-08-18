@@ -33,3 +33,8 @@
 --type-set=jade=.jade
 --type-set=feature=.feature
 --type-set=json=.json
+
+#add support for Bazel files
+--type-add=bazel:is:WORKSPACE
+--type-add=bazel:is:BUILD
+--type-add=bazel:ext:bzl
