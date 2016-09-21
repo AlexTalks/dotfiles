@@ -1,0 +1,53 @@
+#
+# Alex Sarkesian's .gitconfig
+# asarkesian@gmail.com
+#
+
+[user]
+	name = Alex Sarkesian
+	email = asarkesian@gmail.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[push]
+	default = matching
+[log]
+        abbrevCommit = true
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	odiff = difftool --tool=opendiff -y
+	omerge = mergetool --tool=opendiff -y
+        pda = "!git diffall --tool=p4merge"
+	pdiff = difftool --tool=p4merge -y
+	pmerge = mergetool --tool=p4merge -y
+        sshow = show --abbrev-commit --oneline --name-status
+        slog = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --name-status
+        alog = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+        olog = log --pretty=format:'* %Cred%h%Creset %s'
+        upshow = log --oneline --name-status ..origin
+        uplist = diff --name-status origin
+        subclean = submodule foreach --recursive git clean -x -f -d -f
+        subcheckout = submodule update --recursive --init
+        fullclean = clean -x -f -d -f
+        pubcfg = pub-config
+        linecount = "!git ls-files $GIT_PREFIX | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr"
+[init]
+	templatedir = ~/.git_template
+[core]
+	excludesfile = /Users/sarkesian/.gitignore_global
+        editor = vim
+
+# Just for OS X :-)
+[difftool "p4merge"]
+	path = "/Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge"
+[mergetool "p4merge"]
+	path = "/Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge"
+[difftool "sourcetree"]
+	cmd = /Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Dev Tools/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	trustExitCode = true
+[http]
+	postBuffer = 157286400

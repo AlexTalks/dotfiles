@@ -1,0 +1,49 @@
+#
+# Alex Sarkesian's .localrc
+#
+############################################
+####    LOCAL-SPECIFIC SETTINGS       ####
+############################################
+
+
+is_nth_tty() {
+    python -c "import os, sys; print int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $1"
+}
+
+
+reset_motd() {
+    if [ `which finger` ]; then
+        local REALNAME=$(finger `whoami` | sed -e '/Name/!d;s/.*: //')
+    elif [ `which getent` ]; then
+        local REALNAME=$(getent passwd `whoami` | cut -d : -f 5)
+    else
+        local REALNAME=$(whoami)
+    fi
+
+    local HOST_STRING="`uname -n` (`uname -s` `uname -m`)"
+
+    local MOTD1="echo 'Hello, $REALNAME! @ $HOST_STRING'"
+    local MOTD2="echo"
+
+    if [ `which fortune` ]; then
+        local MOTD2="fortune"
+    fi
+
+    if [ `which cowsay` ]; then
+        local MOTD2="cowsay \"`$MOTD2`\""
+    fi
+
+    if [ `which lolcat` ]; then
+        local MOTD1="$MOTD1 | lolcat"
+        local MOTD2="$MOTD2 | lolcat"
+    fi
+
+    # dogeeeeee!
+    if [ $(is_nth_tty 3) -eq 0 ] && [ `which doge` ]; then
+        local MOTD2="doge"
+    fi
+
+    MOTD="$MOTD1 && $MOTD2"
+}
+
+reset_motd

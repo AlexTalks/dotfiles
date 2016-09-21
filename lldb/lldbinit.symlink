@@ -1,0 +1,7 @@
+#settings set target.inline-breakpoint-strategy always
+
+# don't show std/boost stuff
+#settings set target.process.thread.step-avoid-regexp ^(std::|boost::)
+
+# don't truncate strings!
+set set target.max-string-summary-length 10000
