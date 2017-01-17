@@ -43,7 +43,7 @@ fi
 ## /usr/bin             // system installs, by root
 
 # Java settings
-if [ "`uname -s`" == "Darwin" ]; then
+if [ "`uname -s`" == "Darwin" ] && [ -e /usr/libexec/java_home ]; then
     export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 fi
 

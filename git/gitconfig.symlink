@@ -35,7 +35,7 @@
 	templatedir = ~/.git_template
 [core]
 	excludesfile = ~/.gitignore_global
-        editor = vim
+    editor = vim
 
 [include]
 	path = .gitconfig_private
