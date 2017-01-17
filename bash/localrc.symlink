@@ -5,6 +5,12 @@
 ####    LOCAL-SPECIFIC SETTINGS       ####
 ############################################
 
+if [[ `uname -v | grep -e "14\.04.*Ubuntu"` ]]; then
+    alias pbcopy='DISPLAY=":0" xclip -selection clipboard'
+    alias pbpaste='DISPLAY=":0" xclip -selection clipboard -o'
+
+    export IBUS_ENABLE_SYNC_MODE=1
+fi
 
 is_nth_tty() {
     python -c "import os, sys; print int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $1"
@@ -47,3 +53,6 @@ reset_motd() {
 }
 
 reset_motd
+
+# Local private settings
+[ -r ~/.localrc_private ] && source ~/.localrc_private

@@ -1,6 +1,5 @@
 #
 # Alex Sarkesian's .gitconfig
-# asarkesian@gmail.com
 #
 
 [user]
@@ -35,8 +34,11 @@
 [init]
 	templatedir = ~/.git_template
 [core]
-	excludesfile = /Users/sarkesian/.gitignore_global
+	excludesfile = ~/.gitignore_global
         editor = vim
+
+[include]
+	path = .gitconfig_private
 
 # Just for OS X :-)
 [difftool "p4merge"]

@@ -13,6 +13,10 @@ set-option -g mouse-resize-pane on
 set-window-option -g mode-mouse on
 # }}}
 
+# Vim Mode {{{
+setw -g mode-keys vi
+# }}}
+
 # Bindings {{{
 # Toggle mouse on with C-b m
 bind m set-option -g mouse-select-pane on \; set-option -g mouse-select-window on \; set-option -g mouse-resize-pane on \; set-window-option -g mode-mouse on \; display 'Mouse: ON'

@@ -106,7 +106,7 @@ psaux() {
     ps aux | grep -v "grep --color -i $@" | grep -i $@ 
 }
 
-# Local, private settings
+# Local & private settings
 [ -r ~/.localrc ] && source ~/.localrc
 
 # everybody loves bash autocomplete!
