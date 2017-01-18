@@ -1,0 +1,1 @@
+source $OMF_PATH/themes/bobthefish/fish_right_prompt.fish

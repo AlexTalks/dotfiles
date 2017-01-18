@@ -1,0 +1,1 @@
+source $OMF_PATH/themes/agnoster/fish_prompt.fish

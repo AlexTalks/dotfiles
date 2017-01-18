@@ -57,16 +57,18 @@ link_files () {
   success "linked $1 to $2"
 }
 
-install_dotfiles () {
-  info 'installing dotfiles'
-
+install_files () {
   overwrite_all=false
   backup_all=false
   skip_all=false
 
-  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  dest_path_prefix=$1
+  shift
+  find_results=$@
+
+  for source in $find_results
   do
-    dest="$HOME/.`basename \"${source%.*}\"`"
+    dest="$dest_path_prefix`basename \"${source%.symlink}\"`"
 
     if [ -f $dest ] || [ -d $dest ]
     then
@@ -124,8 +126,50 @@ install_dotfiles () {
   done
 }
 
+install_dotfiles() {
+  info 'installing dotfiles'
+  find_results=`find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  dest_path_prefix="$HOME/."
+
+  install_files $dest_path_prefix $find_results
+  success "installed dotfiles"
+}
+
+install_fish_config() {
+  info 'installing fish config'
+  find_results=`find $DOTFILES_ROOT/fish/config -maxdepth 2 -name \*.symlink`
+  dest_path_prefix="$HOME/.config/"
+
+  if [ ! -d "$HOME/.config" ]; then
+    mkdir -p $HOME/.config
+  fi
+
+  install_files $dest_path_prefix $find_results
+  success "installed fish config"
+}
+
+install_fish_themes() {
+  info 'installing fish themes'
+
+  if [ -z "$OMF_CONFIG" ]; then
+    OMF_CONFIG="$HOME/.config/omf"
+  fi
+
+  if [ -z "$OMF_PATH" ]; then
+    OMF_PATH="$HOME/.local/share/omf"
+  fi
+
+  find_results=`find $OMF_CONFIG/themes -mindepth 1 -maxdepth 1 -type d`
+  dest_path_prefix="$OMF_PATH/themes/"
+
+  install_files $dest_path_prefix $find_results
+  success "installed fish themes"
+}
+
 setup_gitconfig
 install_dotfiles
+install_fish_config
+install_fish_themes
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]
