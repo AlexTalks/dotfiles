@@ -1,2 +1,4 @@
 " Look and feel of GVIM
 colorscheme slate
+
+set guifont=Source\ Code\ Pro\ for\ Powerline:h14
