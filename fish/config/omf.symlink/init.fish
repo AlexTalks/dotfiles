@@ -52,6 +52,7 @@ end
 set -x CCACHE_CPP2 1
 set -x CCACHE_COMPRESS 1
 
+# Aliases
 alias cdb 'prevd'
 alias pubkey "more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
@@ -63,6 +64,16 @@ end
 function psaux -d "show running processes with ps aux with the given name"
     ps aux | head -1
     ps aux | grep -v "grep --color -i $argv" | grep -i $argv
+end
+
+# TMUX support
+
+function tmux_refresh -d "refresh environment variables for tmux pane"
+    if [ -n "$TMUX" ]
+        set -xg DISPLAY (tmux showenv | grep "^DISPLAY" | awk '{split($0,v,"="); print v[2]}')
+        set -xg SSH_AUTH_SOCK (tmux showenv | grep "^SSH_AUTH_SOCK" | awk '{split($0,v,"="); print v[2]}')
+        set -xg SSH_CONNECTION (tmux showenv | grep "^SSH_CONNECTION" | awk '{split($0,v,"="); print v[2]}')
+    end
 end
 
 set -x PYTHONSTARTUP $HOME/.pythonrc

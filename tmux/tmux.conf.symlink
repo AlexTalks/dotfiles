@@ -18,6 +18,10 @@ if-shell '[ $(echo "$(tmux -V | cut -d" " -f2) >= 2.1" | bc) -eq 1 ]' \
     'bind M set -g mode-mouse off\; set -g mouse-resize-pane off\; set -g mouse-select-pane off\; set -g mouse-select-window off\; display "Mouse: OFF"'
 # }}}
 
+# SSH support {{{
+set-option -g update-environment "SSH_AUTH_SOCK SSH_CONNECTION DISPLAY"
+# }}}
+
 # Bindings {{{
 bind C-w select-layout even-horizontal
 # }}}

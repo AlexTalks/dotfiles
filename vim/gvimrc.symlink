@@ -1,4 +1,8 @@
 " Look and feel of GVIM
 colorscheme slate
 
-set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+if has("mac")
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+elseif has("gui_gtk2")
+    set guifont=Source\ Code\ Pro\ for\ Powerline\ Medium\ 14
+endif
