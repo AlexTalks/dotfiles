@@ -1,0 +1,26 @@
+# Your keymap
+#
+# You can find more information about keymaps in these guides:
+# * http://flight-manual.atom.io/using-atom/sections/basic-customization/#_customizing_keybindings
+# * http://flight-manual.atom.io/behind-atom/sections/keymaps-in-depth/
+#
+# If you're having trouble with your keybindings not working, try the
+# Keybinding Resolver: `Cmd+.` on macOS and `Ctrl+.` on other platforms. See the
+# Debugging Guide for more information:
+# * http://flight-manual.atom.io/hacking-atom/sections/debugging/#check-the-keybindings
+#
+'.platform-darwin atom-workspace':
+  'cmd-p': 'nuclide-quick-open:find-anything-via-omni-search'
+  'cmd-t': 'nuclide-navigation-stack:navigate-backwards'
+  'shift-cmd-j': 'nuclide-file-tree:reveal-active-file'
+
+'.platform-linux atom-workspace':
+  'ctrl-p': 'nuclide-quick-open:find-anything-via-omni-search'
+  'ctrl-t': 'nuclide-navigation-stack:navigate-backwards'
+  'shift-ctrl-j': 'nuclide-file-tree:reveal-active-file'
+
+'.platform-darwin atom-text-editor':
+  'shift-cmd-]': 'hyperclick:confirm-cursor'
+
+'.platform-linux atom-text-editor':
+  'shift-ctrl-]': 'hyperclick:confirm-cursor'
