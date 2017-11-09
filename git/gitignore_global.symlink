@@ -7,3 +7,4 @@
 *.iml
 xcuserdata/
 venv/
+.omf_parse_git_dirty
