@@ -13,6 +13,10 @@ function fish_greeting -d "what's up, fish?"
         set REALNAME (whoami)
     end
 
+    if [ (string length $REALNAME) ]
+        set REALNAME (whoami)
+    end
+
     set -l HOST_INNER (uname -s) (uname -m)
     set -l HOST_NAME (uname -n)
     set -l HOST_STRING "$HOST_NAME ($HOST_INNER)"
