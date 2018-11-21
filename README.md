@@ -68,6 +68,30 @@ If one were using zsh, these would also be used:
   last and is expected to setup autocomplete.
 
 
+## Software to install
+
+- ack
+- Atom
+- bash-completion
+- fish
+- Java 8
+- jq
+- npm
+- Python 2.7
+- Ruby, gem, rvm
+- tmux
+- Vundle for vim
+- Xcode & command line utilities
+- Command line flourishes: fortune, cowsay, lolcat, doge, 
+
+## Optional software
+
+- iTerm 2
+- Powerline-patched fonts
+- Solarized Dark Theme
+- MacVim
+- Sublime Text
+
 ## thanks
 
 Forked without shame from https://github.com/holman/dotfiles.git

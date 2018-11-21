@@ -34,6 +34,11 @@ if [ -r /usr/local/heroku/bin ]
 	set -x PATH $PATH /usr/local/heroku/bin
 end
 
+# locally installed python packages for MacOS
+if [ -r ~/Library/Python/2.7/bin ]
+    set -x PATH $PATH ~/Library/Python/2.7/bin
+end
+
 # last, for dotfiles bin
 if [ -r ~/.dotfiles/bin ]
     set -x PATH $PATH $HOME/.dotfiles/bin

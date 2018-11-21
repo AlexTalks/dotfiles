@@ -18,16 +18,14 @@ function fish_greeting -d "what's up, fish?"
     set -l HOST_STRING "$HOST_NAME ($HOST_INNER)"
 
     set -l MOTD1 "echo 'Hello, $REALNAME! @ $HOST_STRING'"
-    set -l MOTD2 "Is this real life?"
+    set -l MOTD2 "echo 'Is this real life?'"
 
     if [ (which fortune) ]
         set MOTD2 "fortune"
-        set MOTD2 (eval $MOTD2)
     end
 
     if [ (which cowsay) ]
-        set MOTD2 (string escape "$MOTD2")
-        set MOTD2 "cowsay -f random $MOTD2"
+        set MOTD2 "$MOTD2 | cowsay -f random"
     end
 
     if [ (which lolcat) ]
@@ -36,8 +34,10 @@ function fish_greeting -d "what's up, fish?"
     end
 
     # dogeeeeee!
-    if [ (is_nth_tty 3) -eq 0 ]; and [ (which doge) ];
-        set MOTD2 "doge"
+    if [ (is_nth_tty 3) -eq 0 ]
+        if [ (which doge) ]
+            set MOTD2 "doge"
+        end
     end
 
     set -l MOTD "$MOTD1; and $MOTD2"
