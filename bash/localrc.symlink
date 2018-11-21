@@ -30,6 +30,10 @@ reset_motd() {
         local REALNAME=$(whoami)
     fi
 
+    if [ ${#REALNAME} -eq 0 ]; then
+        local REALNAME=$(whoami)
+    fi
+
     local HOST_STRING="`uname -n` (`uname -s` `uname -m`)"
 
     local MOTD1="echo 'Hello, $REALNAME! @ $HOST_STRING'"
