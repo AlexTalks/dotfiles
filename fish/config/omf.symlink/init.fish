@@ -7,7 +7,7 @@
 set -U EDITOR vim
 set -U PAGER less
 
-set -x PATH . $HOME/bin /usr/local/bin $PATH
+set -x PATH . $HOME/bin $PATH
 
 # for pip executables
 if [ -r /usr/local/share/python ]
@@ -50,12 +50,12 @@ end
 
 # Java settings
 if [ (uname -s) = "Darwin" ]; and [ -e /usr/libexec/java_home ]
-	set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
+	set -xg JAVA_HOME (/usr/libexec/java_home -v 1.8)
 end
 
 # CCACHE settings
-set -x CCACHE_CPP2 1
-set -x CCACHE_COMPRESS 1
+set -xg CCACHE_CPP2 1
+set -xg CCACHE_COMPRESS 1
 
 # Aliases
 alias cdb 'prevd'
@@ -81,4 +81,4 @@ function tmux_refresh -d "refresh environment variables for tmux pane"
     end
 end
 
-set -x PYTHONSTARTUP $HOME/.pythonrc
+set -xg PYTHONSTARTUP $HOME/.pythonrc

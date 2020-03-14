@@ -1,4 +1,4 @@
-#settings set target.inline-breakpoint-strategy always
+settings set target.inline-breakpoint-strategy always
 
 # don't show std/boost stuff
 #settings set target.process.thread.step-avoid-regexp ^(std::|boost::)

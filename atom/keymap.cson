@@ -12,12 +12,12 @@
 '.platform-darwin atom-workspace':
   'cmd-p': 'nuclide-quick-open:find-anything-via-omni-search'
   'cmd-t': 'nuclide-navigation-stack:navigate-backwards'
-  'shift-cmd-j': 'nuclide-file-tree:reveal-active-file'
+  'shift-cmd-j': 'tree-view:reveal-active-file'
 
 '.platform-linux atom-workspace':
   'ctrl-p': 'nuclide-quick-open:find-anything-via-omni-search'
   'ctrl-t': 'nuclide-navigation-stack:navigate-backwards'
-  'shift-ctrl-j': 'nuclide-file-tree:reveal-active-file'
+  'shift-ctrl-j': 'tree-view:reveal-active-file'
 
 '.platform-darwin atom-text-editor':
   'shift-cmd-]': 'hyperclick:confirm-cursor'
