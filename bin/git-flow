@@ -81,7 +81,7 @@ class GitFlowWriter(object):
         output = subprocess.run(
             ["arc", "call-conduit", "differential.revision.search"],
             input=json.dumps(query).encode("utf-8"),
-            capture_output=True
+            stdout=subprocess.PIPE
         )
         if output.returncode != 0:
             return
@@ -112,6 +112,8 @@ class GitFlowWriter(object):
             formatting: Optional[Text] = None
     ) -> None:
         continue_printing = not (self.include_commit or self.include_phab_diffs)
+        if branch_name == self.repo.active_branch.name:
+            formatting = BOLD
         self.fmt_print(fmt.format(branch_name), formatting, newline=continue_printing)
         commit: git.Commit = self.repo.heads[branch_name].commit
         curr_tab = int(len(fmt.format(branch_name)) / TAB_LEN)
@@ -174,19 +176,19 @@ class GitFlowWriter(object):
 
     def _print_flow_inner(self, parent_branch: Text, level: int) -> None:
         fmt = " " * level + "⎿ {}"
-        for child_branch in self.local_tree[parent_branch]:
+        for child_branch in sorted(self.local_tree[parent_branch]):
             self.print_branch(child_branch, fmt)
             if child_branch in self.local_tree:
                 self._print_flow_inner(child_branch, level + 1)
 
     def print_flow(self) -> None:
-        self.print_branch(self.master.name, "⚙ {}", BOLD)
+        self.print_branch(self.master.name, "⚙ {}")
         self._print_flow_inner(self.master.name, 0)
 
         # show orphans if we haven't specified a root
         if self.master.name == ROOT_BRANCH_NAME:
             for branch in self.orphaned_branches:
-                self.print_branch(branch, "{}", LIGHTGRAY)
+                self.print_branch(branch, "{}")
                 if branch in self.local_tree:
                     self._print_flow_inner(branch, 0)
 
@@ -205,6 +207,7 @@ def main() -> None:
         action="store_true"
     )
     parser.add_argument(
+        "-d",
         "--diffs",
         help="show phabricator diffs",
         action="store_true",
