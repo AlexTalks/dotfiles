@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+
+from typing import Dict, Optional, Set, Text
+
+import argparse
+import git
+import json
+import subprocess
+import sys
+
+from collections import namedtuple
+
+ROOT_REMOTE_NAME = "origin"
+ROOT_BRANCH_NAME = "master"
+LOCAL_REMOTE_NAME = "."
+
+SHORT_SHA_LIMIT = 12
+TAB_LEN = 8
+
+END = '\033[0m'
+UNDERLINE = '\033[4m'
+GREEN = '\033[32m'
+BLUE = '\033[34m'
+MAGENTA = '\033[35m'
+CYAN = '\033[36m'
+LIGHTGRAY = '\033[37m'
+BOLD = '\033[1;37m'
+DARKGRAY = '\033[90m'
+RED = '\033[91m'
+LIGHTGREEN = '\033[92m'
+YELLOW = '\033[93m'
+LIGHTBLUE = '\033[94m'
+PURPLE = '\033[95m'
+LIGHTCYAN = '\033[96m'
+
+ColorMap = {
+    "magenta": MAGENTA,
+    "cyan": CYAN,
+    "green": GREEN,
+}
+
+PhabricatorDiffInfo = namedtuple("PhabricatorDiffInfo", ["revision_id", "title", "color", "status"])
+
+
+class GitFlowWriter(object):
+    def __init__(self, repo: git.Repo, master: git.Head, print_commit_messages: bool, phab_diffs: bool):
+        self.repo = repo
+        self.master = master
+        self.include_commit = print_commit_messages
+        self.include_phab_diffs = phab_diffs
+
+        self.orphaned_branches: Set[Text] = set()
+        self.local_tree: Dict[Text, Set[Text]] = dict()
+        self.remote_tree: Dict[Text, Set[Text]] = dict()
+        self.phab_diff_info: Dict[Text, Optional[PhabricatorDiffInfo]] = dict()
+        self.max_branch_len = 0
+
+        self._build_tree()
+        self._prep_printer()
+
+    @staticmethod
+    def fmt_print(text: Text, formatting: Optional[Text] = None, newline: bool = True) -> None:
+        if formatting:
+            sys.stdout.write(formatting)
+        sys.stdout.write(text)
+        if formatting:
+            sys.stdout.write(END)
+        if newline:
+            sys.stdout.write("\n")
+
+    def _prep_phab_diffs(self) -> None:
+        revision_ids_to_commit_sha: Dict[int, Text] = dict()
+        for branch in self.repo.heads:
+            commit = branch.commit
+            last_line = commit.message.split("\n")[-2]
+            if "phabricator" in last_line:
+                revision_id = int(last_line.split("/")[-1][1:])
+                revision_ids_to_commit_sha[revision_id] = commit.hexsha
+
+        query = {"constraints": {"ids": list(revision_ids_to_commit_sha.keys())}}
+        output = subprocess.run(
+            ["arc", "call-conduit", "differential.revision.search"],
+            input=json.dumps(query).encode("utf-8"),
+            capture_output=True
+        )
+        if output.returncode != 0:
+            return
+
+        try:
+            response = json.loads(output.stdout)["response"]
+            for diff in response["data"]:
+                commit_sha = revision_ids_to_commit_sha[diff["id"]]
+                self.phab_diff_info[commit_sha] = PhabricatorDiffInfo(
+                    revision_id="D{}".format(diff["id"]),
+                    title=diff["fields"]["title"],
+                    color=diff["fields"]["status"]["color.ansi"],
+                    status=diff["fields"]["status"]["name"]
+                )
+        except:
+            return
+
+    def _extract_phab_diff(self, commit: git.Commit) -> Optional[PhabricatorDiffInfo]:
+        if commit.hexsha in self.phab_diff_info:
+            return self.phab_diff_info[commit.hexsha]
+        else:
+            return None
+
+    def print_branch(
+            self,
+            branch_name: Text,
+            fmt: Text,
+            formatting: Optional[Text] = None
+    ) -> None:
+        continue_printing = not (self.include_commit or self.include_phab_diffs)
+        self.fmt_print(fmt.format(branch_name), formatting, newline=continue_printing)
+        commit: git.Commit = self.repo.heads[branch_name].commit
+        curr_tab = int(len(fmt.format(branch_name)) / TAB_LEN)
+        tab_alignment = int((self.max_branch_len + TAB_LEN) / TAB_LEN)
+        num_tabs = tab_alignment - curr_tab
+        if self.include_phab_diffs:
+            self.fmt_print("\t" * num_tabs + " ", newline=False)
+            diff_info = self._extract_phab_diff(commit)
+            if diff_info:
+                self.fmt_print(diff_info.status, ColorMap.get(diff_info.color, None), newline=False)
+                if len(diff_info.status) < TAB_LEN:
+                    self.fmt_print("\t", newline=False)
+            else:
+                self.fmt_print("No Revision", BLUE, newline=False)
+            self.fmt_print("\t", newline=False)
+            if diff_info:
+                self.fmt_print("{}".format(diff_info.revision_id), RED, newline=False)
+                self.fmt_print(": {}".format(diff_info.title))
+            else:
+                self.fmt_print(commit.summary)
+        elif self.include_commit:
+            self.fmt_print("\t" * num_tabs + "* ", newline=False)
+            self.fmt_print(commit.hexsha[:SHORT_SHA_LIMIT], RED, newline=False)
+            self.fmt_print(" {}".format(commit.summary), newline=False)
+            self.fmt_print(" <{}>".format(commit.author.name), DARKGRAY)
+
+    def _build_tree(self) -> None:
+        self.local_tree[self.master.name] = set()
+        for branch in self.repo.heads:
+            tracking: Optional[git.RemoteReference] = branch.tracking_branch()
+            if not tracking or tracking.remote_head not in self.repo.heads:
+                self.orphaned_branches.add(branch.name)
+            else:
+                tree = self.local_tree
+                tracking_name = tracking.remote_head
+                if tracking.remote_name != LOCAL_REMOTE_NAME:
+                    tree = self.remote_tree
+                    tracking_name = tracking.name
+                if tracking_name not in tree:
+                    tree[tracking_name] = set()
+                tree[tracking_name].add(branch.name)
+
+    def _prep_printer_inner(self, parent_branch: Text, level: int) -> None:
+        for child_branch in self.local_tree[parent_branch]:
+            line_len = level + 2 + len(child_branch)
+            if line_len > self.max_branch_len:
+                self.max_branch_len = line_len
+            if child_branch in self.local_tree:
+                self._prep_printer_inner(child_branch, level + 1)
+
+    def _prep_printer(self) -> None:
+        self.max_branch_len = 2 + len(self.master.name)
+        self._prep_printer_inner(self.master.name, 0)
+        for branch in self.orphaned_branches:
+            line_len = 2 + len(branch)
+            if line_len > self.max_branch_len:
+                self.max_branch_len = line_len
+        if self.include_phab_diffs:
+            self._prep_phab_diffs()
+
+    def _print_flow_inner(self, parent_branch: Text, level: int) -> None:
+        fmt = " " * level + "⎿ {}"
+        for child_branch in self.local_tree[parent_branch]:
+            self.print_branch(child_branch, fmt)
+            if child_branch in self.local_tree:
+                self._print_flow_inner(child_branch, level + 1)
+
+    def print_flow(self) -> None:
+        self.print_branch(self.master.name, "⚙ {}", BOLD)
+        self._print_flow_inner(self.master.name, 0)
+
+        # show orphans if we haven't specified a root
+        if self.master.name == ROOT_BRANCH_NAME:
+            for branch in self.orphaned_branches:
+                self.print_branch(branch, "{}", LIGHTGRAY)
+                if branch in self.local_tree:
+                    self._print_flow_inner(branch, 0)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-b",
+        "--branch",
+        type=str,
+        help="branch name to use as root (default \"master\")",
+    )
+    parser.add_argument(
+        "--no-commits",
+        help="refrain from outputting the latest commit for each branch",
+        action="store_true"
+    )
+    parser.add_argument(
+        "--diffs",
+        help="show phabricator diffs",
+        action="store_true",
+    )
+    args = parser.parse_args()
+
+    try:
+        repo = git.Repo(search_parent_directories=True)
+    except git.exc.InvalidGitRepositoryError:
+        sys.stderr.write("fatal: not a git repository\n")
+        sys.exit(1)
+
+    # find root branch
+    root_branch = ROOT_BRANCH_NAME
+    if args.branch:
+        root_branch = args.branch
+    if root_branch not in repo.heads:
+        sys.stderr.write("fatal: master branch not found\n")
+        sys.exit(1)
+
+    master = repo.heads[root_branch]
+
+    flow_writer = GitFlowWriter(repo, master, not args.no_commits, args.diffs)
+    flow_writer.print_flow()
+
+
+if __name__ == "__main__":
+    main()
