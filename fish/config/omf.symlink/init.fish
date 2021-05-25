@@ -10,13 +10,13 @@ set -U PAGER less
 set -x PATH . $HOME/bin $PATH
 
 # for pip executables
-if [ -r /usr/local/share/python ]
-    set -x PATH $PATH /usr/local/share/python
+if [ -r /usr/local/opt/python/libexec/bin ]
+    set -x PATH /usr/local/opt/python/libexec/bin $PATH
 end
 
 # for ruby gems
-if [ -r ~/.gem/ruby/2.0.0/bin ]
-    set -x PATH $PATH $HOME/.gem/ruby/2.0.0/bin
+if [ -r ~/.gem/ruby/2.6.0/bin ]
+    set -x PATH $PATH $HOME/.gem/ruby/2.6.0/bin
 end
 
 if [ -r ~/.rvm/gems/ruby-2.1.1/bin ]
@@ -35,6 +35,9 @@ if [ -r /usr/local/heroku/bin ]
 end
 
 # locally installed python packages for MacOS
+if [ -r ~/Library/Python/3.9/bin ]
+    set -x PATH $PATH $HOME/Library/Python/3.9/bin
+end
 if [ -r ~/Library/Python/2.7/bin ]
     set -x PATH $PATH ~/Library/Python/2.7/bin
 end
@@ -50,7 +53,10 @@ end
 
 # Java settings
 if [ (uname -s) = "Darwin" ]; and [ -e /usr/libexec/java_home ]
-	set -xg JAVA_HOME (/usr/libexec/java_home -v 1.8)
+    /usr/libexec/java_home &> /dev/null
+    if [ $status -eq 0 ]
+	   set -xg JAVA_HOME (/usr/libexec/java_home -v 1.8)
+    end
 end
 
 # CCACHE settings

@@ -1,4 +1,4 @@
-source $OMF_PATH/themes/agnoster/fish_prompt.fish
+source $OMF_PATH/themes/agnoster/functions/fish_prompt.fish
 
 function parse_git_dirty
   set -l submodule_syntax

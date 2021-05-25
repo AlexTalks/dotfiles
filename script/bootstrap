@@ -128,7 +128,7 @@ install_files () {
 
 install_dotfiles() {
   info 'installing dotfiles'
-  find_results=`find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  find_results=`find $DOTFILES_ROOT/. -maxdepth 2 -name \*.symlink`
   dest_path_prefix="$HOME/."
 
   install_files $dest_path_prefix $find_results

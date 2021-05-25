@@ -1,5 +1,5 @@
 function is_nth_tty
-	command python -c "import os, sys; print int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $argv[1]"
+	command python -c "from __future__ import print_function; import os, sys; print(int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $argv[1])"
 end
 
 function fish_greeting -d "what's up, fish?"

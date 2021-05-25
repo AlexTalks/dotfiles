@@ -12,13 +12,8 @@ if [[ `uname -v | grep -e "14\.04.*Ubuntu"` ]]; then
     export IBUS_ENABLE_SYNC_MODE=1
 fi
 
-if [ `which unison` ]; then
-    alias pause_updates="touch ~/.unison/pause"
-    alias resume_updates="rm ~/.unison/pause"
-fi
-
 is_nth_tty() {
-    python -c "import os, sys; print int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $1"
+    python -c "from __future__ import print_function; import os, sys; print(int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $1)"
 }
 
 reset_motd() {
@@ -39,17 +34,19 @@ reset_motd() {
     local MOTD1="echo 'Hello, $REALNAME! @ $HOST_STRING'"
     local MOTD2="echo"
 
-    if [ `which fortune` ]; then
+    which fortune &> /dev/null
+    if [ $? -eq 0 ]; then
         local MOTD2="fortune"
-    fi
+        which cowsay &> /dev/null
+        if [ $? -eq 0 ]; then
+            local MOTD2="cowsay -f random \"`$MOTD2`\""
+        fi
 
-    if [ `which cowsay` ]; then
-        local MOTD2="cowsay \"`$MOTD2`\""
-    fi
-
-    if [ `which lolcat` ]; then
-        local MOTD1="$MOTD1 | lolcat"
-        local MOTD2="$MOTD2 | lolcat"
+        which lolcat &> /dev/null
+        if [ `which lolcat` ]; then
+            local MOTD1="$MOTD1 | lolcat"
+            local MOTD2="$MOTD2 | lolcat"
+        fi
     fi
 
     # dogeeeeee!
