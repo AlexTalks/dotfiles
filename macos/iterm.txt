@@ -1,0 +1,7 @@
+Colors:
+
+https://github.com/MartinSeeler/iterm2-material-design
+
+Fonts:
+(Monaco)
+https://github.com/powerline/fonts
