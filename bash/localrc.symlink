@@ -17,9 +17,9 @@ is_nth_tty() {
 }
 
 reset_motd() {
-    if [ `which finger` ]; then
+    if type finger &> /dev/null; then
         local REALNAME=$(finger `whoami` | sed -e '/Name/!d;s/.*: //')
-    elif [ `which getent` ]; then
+    elif type getent &> /dev/null; then
         local REALNAME=$(getent passwd `whoami` | cut -d : -f 5)
     else
         local REALNAME=$(whoami)
@@ -34,23 +34,20 @@ reset_motd() {
     local MOTD1="echo 'Hello, $REALNAME! @ $HOST_STRING'"
     local MOTD2="echo"
 
-    which fortune &> /dev/null
-    if [ $? -eq 0 ]; then
+    if type fortune &> /dev/null; then
         local MOTD2="fortune"
-        which cowsay &> /dev/null
-        if [ $? -eq 0 ]; then
+        if type cowsay &> /dev/null; then
             local MOTD2="cowsay -f random \"`$MOTD2`\""
         fi
 
-        which lolcat &> /dev/null
-        if [ `which lolcat` ]; then
+        if type lolcat &> /dev/null; then
             local MOTD1="$MOTD1 | lolcat"
             local MOTD2="$MOTD2 | lolcat"
         fi
     fi
 
     # dogeeeeee!
-    if [ $(is_nth_tty 3) -eq 0 ] && [ `which doge` ]; then
+    if [ $(is_nth_tty 3) -eq 0 ] && type doge &> /dev/null; then
         local MOTD2="doge"
     fi
 

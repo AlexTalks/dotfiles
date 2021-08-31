@@ -7,7 +7,7 @@ export PATH=.:$HOME/bin:$PATH
 ZSH_DISABLE_COMPFIX=true
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/asarkesian/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -64,7 +64,11 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 #alias on="source $ZSH/oh-my-zsh.sh"
 
-alias ls="ls -G"
+if [[ "`uname -s`" == "Darwin" ]]; then
+    alias ls="ls -G"
+else
+    alias ls="ls --color"
+fi
 alias reload!='. ~/.zshrc'
 
 psef() {
@@ -79,7 +83,13 @@ psaux() {
 
 # User configuration
 
-export PATH="/usr/local/opt/python/libexec/bin:$PATH:$HOME/Library/Python/3.9/bin"
+if [ -r /usr/local/opt/python/libexec/bin ]; then
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+fi
+
+if [ -r $HOME/Library/Python/3.9/bin ]; then
+    export PATH="$PATH:$HOME/Library/Python/3.9/bin"
+fi
 
 if [ -r ~/.gem/ruby/2.6.0/bin ]; then
     export PATH=$PATH:$HOME/.gem/ruby/2.6.0/bin
@@ -90,6 +100,11 @@ fi
 if [[ -a ~/.localrc ]]
 then
   source ~/.localrc
+fi
+
+if [[ -a ~/.bashrc_bootstrap ]]
+then
+  source ~/.bashrc_bootstrap
 fi
 
 # Misc Config

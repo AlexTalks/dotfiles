@@ -92,6 +92,10 @@ vim-gui-server() {
 alias gvim="vim-gui-server gvim"
 
 # debian specific commands
+if [ -e /etc/debian_version ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
+
 if [ -e /etc/debian_version ] && [ -r ~/.debrc ]; then
     source ~/.debrc
 fi
