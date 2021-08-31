@@ -1,18 +1,22 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Homebrew
 #
 # This installs some of the common dependencies needed (or at least desired)
 # using Homebrew.
 
+if [ "$(uname)" != "Darwin" ]; then
+  exit 0
+fi
+
 # Check for Homebrew
 if test ! $(which brew)
 then
   echo "  Installing Homebrew for you."
-  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)" > /tmp/homebrew-install.log
-fi
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install homebrew packages
-brew install grc coreutils spark
+  echo "  Installing Homebrew packages"
+  brew install jq
+fi
 
 exit 0

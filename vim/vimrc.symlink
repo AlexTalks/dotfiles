@@ -21,40 +21,29 @@ set smartcase
 set shell=bash
 
 " Basic Plugins
-so ~/.vim/a.vim
+if filereadable(expand('~/.vim/a.vim'))
+    so ~/.vim/a.vim
+endif
 
 """"" Vundle package manager
 filetype off
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-airline/vim-airline'
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'mileszs/ack.vim'
+    Plugin 'jistr/vim-nerdtree-tabs'
+    Plugin 'vim-airline/vim-airline'
 
-" Plugin 'Valloric/YouCompleteMe'
-
-" All of your Plugins must be added before the following line
-call vundle#end()
-
-""""" YouCompleteMe Options
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-
-""""" if using YCM, don't use ctags...
-nnoremap <Leader>t <C-t>
-nnoremap <Leader>] <C-]>
-map <silent> <C-]> :YcmCompleter GoToImprecise<CR>
-map <C-t> <C-o>
-
+    " All of your Plugins must be added before the following line
+    call vundle#end()
+endif
 
 " Wrap lines
 " this might only be good for C++

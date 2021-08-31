@@ -7,17 +7,9 @@ warn () {
 }
 
 
-warn 'install things your own damn self!  disabled for now'
-exit 0
-
-
-########################################
-##      Disabled currently...         ##
-########################################
-
 set -e
 
-cd "$(dirname $)"/..
+cd "$(dirname ${BASH_SOURCE[0]})"/..
 
 # find the installers and run them iteratively
 find . -name install.sh | while read installer ; do sh -c "${installer}" ; done

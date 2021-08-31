@@ -1,13 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env bash
+#
+# Ruby
+#
+# This installs Ruby and gems
 
-if test ! $(which rbenv)
+if test ! $(which ruby)
 then
-  echo "  Installing rbenv for you."
-  brew install rbenv > /tmp/rbenv-install.log
+  # assume pre-installed on Darwin
+
+  if [ "$(uname)" == "Linux" ] && [ `which apt-get` ]; then
+    echo "  Installing Ruby via apt-get."
+    sudo apt-get install -y --no-install-recommends ruby
+  fi
+
+  if test $(which gem); then
+    gem install --user-install cowsay lolcat
+  fi
 fi
 
-if test ! $(which ruby-build)
-then
-  echo "  Installing ruby-build for you."
-  brew install ruby-build > /tmp/ruby-build-install.log
-fi
+exit 0

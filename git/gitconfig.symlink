@@ -12,7 +12,9 @@
 [push]
     default = matching
 [log]
-        abbrevCommit = true
+    abbrevCommit = true
+[pager]
+    branch = ""
 [alias]
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
     odiff = difftool --tool=opendiff -y
@@ -37,4 +39,4 @@
     preloadIndex = true
 
 [include]
-    path = .gitconfig_private
+    path = ~/.gitconfig_private
