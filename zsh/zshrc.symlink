@@ -95,6 +95,10 @@ if [ -r ~/.gem/ruby/2.6.0/bin ]; then
     export PATH=$PATH:$HOME/.gem/ruby/2.6.0/bin
 fi
 
+if [ -r ~/go/bin ]; then
+    export PATH=$PATH:$HOME/go/bin
+fi
+
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
 if [[ -a ~/.localrc ]]
@@ -120,6 +124,8 @@ bindkey '^[^N' newtab
 bindkey '^?' backward-delete-char
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+
+alias gitp='git --no-pager'
 
 ### VISUAL CUSTOMISATION ### 
 

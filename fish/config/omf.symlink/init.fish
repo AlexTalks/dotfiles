@@ -42,9 +42,14 @@ if [ -r ~/Library/Python/2.7/bin ]
     set -x PATH $PATH ~/Library/Python/2.7/bin
 end
 
-# last, for dotfiles bin
+# for dotfiles bin
 if [ -r ~/.dotfiles/bin ]
     set -x PATH $PATH $HOME/.dotfiles/bin
+end
+
+# for go executables
+if [ -r ~/go/bin ]
+    set -x PATH $PATH $HOME/go/bin
 end
 
 # NOTE: place(s) where new installs are located:

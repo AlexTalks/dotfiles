@@ -14,8 +14,8 @@
 --color
  
 # Use "less −r" as my pager
-# --pager
-# less -r
+--pager
+less
  
 --ignore-dir=.idea/
 --ignore-dir=node_modules/
@@ -38,3 +38,7 @@
 --type-add=bazel:is:WORKSPACE
 --type-add=bazel:is:BUILD
 --type-add=bazel:ext:bzl
+--type-add=bazel:ext:bazel
+
+#add support for log files
+--type-add=log:ext:log
