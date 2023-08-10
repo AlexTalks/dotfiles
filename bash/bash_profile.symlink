@@ -3,7 +3,6 @@
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-# From repo_setup:
-export PATH="/Users/asarkesian/Library/MobileTools/buck/bin:$PATH"
-# From repo_setup:
-export PATH="/Users/asarkesian/Library/MobileTools/buck/bin:$PATH"
+[[ -s "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+[[ -s "$HOME/.docker/init-bash.sh" ]] && source "$HOME/.docker/init-bash.sh" || true # Added by Docker Desktop

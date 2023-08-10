@@ -31,7 +31,6 @@
     subclean = submodule foreach --recursive git clean -x -f -d -f
     subcheckout = submodule update --recursive --init
     fullclean = clean -x -f -d -f
-    pubcfg = pub-config
     linecount = "!git ls-files $GIT_PREFIX | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr"
 [core]
     excludesfile = ~/.gitignore_global

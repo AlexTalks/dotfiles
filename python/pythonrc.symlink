@@ -1,20 +1,24 @@
 from __future__ import print_function
-try:
-    from rlcompleter import readline
-    import os
-    import atexit
-
-    if 'libedit' in readline.__doc__:
-        readline.parse_and_bind("bind ^@ rl_complete")
-    else:
-        readline.parse_and_bind('C-SPC: complete')
-    print('Autocomplete enabled; CTRL-SPACE to activate')
-    histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+import sys
+if sys.version_info.major <= 2:
     try:
-        readline.read_history_file(histfile)
+        from rlcompleter import readline
+        import os
+        import atexit
+
+        if 'libedit' in readline.__doc__:
+            readline.parse_and_bind("bind ^@ rl_complete")
+        else:
+            readline.parse_and_bind('C-SPC: complete')
+        print('Autocomplete enabled; CTRL-SPACE to activate')
+        histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+        try:
+            readline.read_history_file(histfile)
+        except:
+            pass
+        atexit.register(readline.write_history_file, histfile)
+        del sys, readline, os, atexit, histfile
     except:
         pass
-    atexit.register(readline.write_history_file, histfile)
-    del readline, os, atexit, histfile
-except:
-    pass
+
+doc = lambda d: print(d.__doc__)

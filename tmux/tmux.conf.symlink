@@ -62,6 +62,8 @@ set -g @tpm_plugins '                     \
 
 run '~/.tmux/plugins/tpm/tpm'
 
+set -g @continuum-restore 'on'
+
 setw -g mode-keys vi
 
 bind-key -n "M-{" previous-window

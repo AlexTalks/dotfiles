@@ -15,31 +15,26 @@ if [ -r /usr/local/opt/python/libexec/bin ]
 end
 
 # for ruby gems
-if [ -r ~/.gem/ruby/2.6.0/bin ]
-    set -x PATH $PATH $HOME/.gem/ruby/2.6.0/bin
+set -U GEMPATH (gem environment gempath 2>/dev/null | cut -d':' -f1)
+if [ -r $GEMPATH/bin ]
+    set -x PATH $PATH $GEMPATH/bin
 end
 
-if [ -r ~/.rvm/gems/ruby-2.1.1/bin ]
-    set -x PATH $PATH $HOME/.rvm/gems/ruby-2.1.1/bin
+# for Go version management
+if [ -s $HOME/.gvm/scripts/gvm ]
+    source $HOME/.gvm/scripts/gvm
 end
 
-
-# for npm executables
-if [ -r /usr/local/share/npm/bin ]
-    set -x PATH $PATH /usr/local/share/npm/bin
+# for Go executables
+if [ -r ~/go/bin ]
+    set -x PATH $PATH $HOME/go/bin
 end
 
-### Added by the Heroku Toolbelt
-if [ -r /usr/local/heroku/bin ]
-	set -x PATH $PATH /usr/local/heroku/bin
-end
+set -U PYTHONBASE (python -m site --user-base 2>/dev/null)
 
-# locally installed python packages for MacOS
-if [ -r ~/Library/Python/3.9/bin ]
-    set -x PATH $PATH $HOME/Library/Python/3.9/bin
-end
-if [ -r ~/Library/Python/2.7/bin ]
-    set -x PATH $PATH ~/Library/Python/2.7/bin
+# locally installed python packages
+if [ -r $PYTHONBASE/bin ]
+    set -x PATH $PATH $PYTHONBASE/bin
 end
 
 # for dotfiles bin
@@ -47,26 +42,9 @@ if [ -r ~/.dotfiles/bin ]
     set -x PATH $PATH $HOME/.dotfiles/bin
 end
 
-# for go executables
-if [ -r ~/go/bin ]
-    set -x PATH $PATH $HOME/go/bin
-end
-
 # NOTE: place(s) where new installs are located:
 ## /usr/local/bin       // local installs, by user
 ## /usr/bin             // system installs, by root
-
-# Java settings
-if [ (uname -s) = "Darwin" ]; and [ -e /usr/libexec/java_home ]
-    /usr/libexec/java_home &> /dev/null
-    if [ $status -eq 0 ]
-	   set -xg JAVA_HOME (/usr/libexec/java_home -v 1.8)
-    end
-end
-
-# CCACHE settings
-set -xg CCACHE_CPP2 1
-set -xg CCACHE_COMPRESS 1
 
 # Aliases
 alias cdb 'prevd'

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Ack
+# Zsh
 #
-# This installs Ack
+# This installs Zsh, oh-my-zsh
 
 if test ! $(which zsh)
 then

@@ -16,28 +16,28 @@ if [ -r /usr/local/share/python ]; then
 fi
 
 # for ruby gems
-if [ -r ~/.gem/ruby/2.0.0/bin ]; then
-    export PATH=$PATH:$HOME/.gem/ruby/2.0.0/bin
+GEMPATH=`gem environment gempath 2>/dev/null | cut -d':' -f1`
+if [ -r $GEMPATH/bin ]; then
+    export PATH=$PATH:$GEMPATH/bin
 fi
 
-if [ -r ~/.rvm/gems/ruby-2.1.1/bin ]; then
-    export PATH=$PATH:$HOME/.rvm/gems/ruby-2.1.1/bin
-fi
+# for Go version management
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
+# for Go executables
+if [ -r ~/go/bin ]; then
+    export PATH=$PATH:$HOME/go/bin
+fi
 
 # for npm executables
 if [ -r /usr/local/share/npm/bin ]; then
     export PATH=$PATH:/usr/local/share/npm/bin
 fi
 
-### Added by the Heroku Toolbelt
-if [ -r /usr/local/heroku/bin ]; then
-	export PATH=$PATH:/usr/local/heroku/bin
-fi
-
-# locally installed python packages for MacOS
-if [ -r ~/Library/Python/2.7/bin ]; then
-    export PATH=$PATH:~/Library/Python/2.7/bin
+# locally installed python packages
+PYTHONBASE=`python -m site --user-base 2>/dev/null`
+if [ -r "$PYTHONBASE/bin" ]; then
+    export PATH=$PATH:$PYTHONBASE/bin
 fi
 
 # last, for dotfiles bin
@@ -48,15 +48,6 @@ fi
 # NOTE: place(s) where new installs are located:
 ## /usr/local/bin       // local installs, by user
 ## /usr/bin             // system installs, by root
-
-# Java settings
-if [ "`uname -s`" == "Darwin" ] && [ -e /usr/libexec/java_home ]; then
-    export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-fi
-
-# CCACHE settings
-export CCACHE_CPP2=1
-export CCACHE_COMPRESS=1
 
 # source .bashrc last, so will be sourced on all login shells 
 [ -r ~/.bashrc ] && source ~/.bashrc

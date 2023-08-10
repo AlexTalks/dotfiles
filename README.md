@@ -1,6 +1,6 @@
 # alextalks does dotfiles!
 
-![Output sample](http://clk.pw/bunny)
+![Sleeping bunny](bunnies/bunny-faint.gif)
 
 ## dotfiles
 
@@ -53,32 +53,18 @@ There's a few special files in the hierarchy.
   but still keep those autoloaded files in your home directory. These get
   symlinked in when you run `script/bootstrap`.
 
-## zsh disclaimer
-
-As I currently don't use zsh, the zsh config is just left for reference and none
-of the zsh files are sourced.
-
-If one were using zsh, these would also be used:
-
-- **topic/\*.zsh**: Any files ending in `.zsh` get loaded into your
-  environment.
-- **topic/path.zsh**: Any file named `path.zsh` is loaded first and is
-  expected to setup `$PATH` or similar.
-- **topic/completion.zsh**: Any file named `completion.zsh` is loaded
-  last and is expected to setup autocomplete.
-
 
 ## Software to install
 
 - ack
-- Atom
+- oh-my-zsh
 - bash-completion
 - fish
-- Java 8
 - jq
+- go
 - npm
-- Python 2.7
-- Ruby, gem, rvm
+- Python 3.x
+- Ruby, gem
 - tmux
 - Vundle for vim
 - Xcode & command line utilities

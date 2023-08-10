@@ -122,3 +122,7 @@ fi
 
 # Python startup
 export PYTHONSTARTUP=$HOME/.pythonrc
+
+if [[ -a ~/.bashrc_bootstrap ]]; then
+  source ~/.bashrc_bootstrap
+fi

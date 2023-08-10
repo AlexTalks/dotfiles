@@ -10,3 +10,4 @@ venv/
 .omf_parse_git_dirty
 *.log
 man/
+.clwb/
