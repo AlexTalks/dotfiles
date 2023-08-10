@@ -60,9 +60,10 @@ set -g @tpm_plugins '                     \
     tmux-plugins/tmux-prefix-highlight    \
 '
 
-run '~/.tmux/plugins/tpm/tpm'
-
+set -g @resurrect-capture-pane-contents 'on'
 set -g @continuum-restore 'on'
+
+run '~/.tmux/plugins/tpm/tpm'
 
 setw -g mode-keys vi
 
