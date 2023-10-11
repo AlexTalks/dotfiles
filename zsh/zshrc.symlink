@@ -164,7 +164,9 @@ LSCOLORS="exfxcxdxbxegedabagacad"
 DEFAULT_USER="asarkesian"
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs time)
+
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_PREFIX='took '
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

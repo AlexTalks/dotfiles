@@ -17,8 +17,9 @@ if sys.version_info.major <= 2:
         except:
             pass
         atexit.register(readline.write_history_file, histfile)
-        del sys, readline, os, atexit, histfile
+        del readline, os, atexit, histfile
     except:
         pass
+del sys
 
 doc = lambda d: print(d.__doc__)
