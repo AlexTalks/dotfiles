@@ -2,7 +2,18 @@
 # Alex Sarkesian's .zshrc
 #
 
+# Apple Silicon Brew Setup
+
+if [ -r /opt/homebrew/bin ]; then
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+    alias oldbrew=/usr/local/bin/brew
+fi
+
+# Local Path Setup
+
 export PATH=.:$HOME/bin:$PATH
+
+# ZSH & oh-my-zsh Setup
 
 ZSH_DISABLE_COMPFIX=true
 
@@ -57,7 +68,14 @@ CASE_SENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  bazel
+  docker
+  docker-compose
   git
+  golang
+  iterm2
+  macos
+  mosh
 )
 
 # NOTE: Uncomment the following line to enable Oh-My-ZSH
@@ -96,7 +114,10 @@ tmux_refresh() {
 
 # User configuration
 
-if [ -r /usr/local/opt/python/libexec/bin ]; then
+# for brew-installed Python
+if [ -r /opt/homebrew/opt/python/libexec/bin ]; then
+    export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+elif [ -r /usr/local/opt/python/libexec/bin ]; then
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi
 
@@ -114,7 +135,7 @@ if [ -r ~/go/bin ]; then
     export PATH=$PATH:$HOME/go/bin
 fi
 
-# locally installed python packages
+# for locally installed python packages
 PYTHONBASE=`python -m site --user-base 2>/dev/null`
 if [ -r "$PYTHONBASE/bin" ]; then
     export PATH=$PATH:$PYTHONBASE/bin
@@ -152,6 +173,9 @@ bindkey '^[^N' newtab
 bindkey '^?' backward-delete-char
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
+typeset -g POWERLEVEL9K_VIRTUALENV_GENERIC_NAMES=
+typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION='🐍'
 
 alias gitp='git --no-pager'
 
@@ -164,7 +188,7 @@ LSCOLORS="exfxcxdxbxegedabagacad"
 DEFAULT_USER="asarkesian"
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs virtualenv time)
 
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_PREFIX='took '
 

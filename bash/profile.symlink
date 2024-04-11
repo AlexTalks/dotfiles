@@ -8,11 +8,22 @@ typeset -x \
 EDITOR=vim \
 PAGER=less
 
+# Apple Silicon Brew Setup
+
+if [ -r /opt/homebrew/bin ]; then
+    export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
+    alias oldbrew=/usr/local/bin/brew
+fi
+
+# Local Path Setup
+
 export PATH=.:$HOME/bin:/usr/local/bin:$PATH
 
-# for pip executables
-if [ -r /usr/local/share/python ]; then
-    export PATH=$PATH:/usr/local/share/python
+# for brew-installed Python
+if [ -r /opt/homebrew/opt/python/libexec/bin ]; then
+    export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+elif [ -r /usr/local/opt/python/libexec/bin ]; then
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi
 
 # for ruby gems
@@ -34,7 +45,7 @@ if [ -r /usr/local/share/npm/bin ]; then
     export PATH=$PATH:/usr/local/share/npm/bin
 fi
 
-# locally installed python packages
+# for locally installed python packages
 PYTHONBASE=`python -m site --user-base 2>/dev/null`
 if [ -r "$PYTHONBASE/bin" ]; then
     export PATH=$PATH:$PYTHONBASE/bin

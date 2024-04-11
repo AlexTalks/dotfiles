@@ -7,10 +7,21 @@
 set -U EDITOR vim
 set -U PAGER less
 
+# Apple Silicon Brew Setup
+
+if [ -r /opt/homebrew/bin ]
+    set -x PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
+    alias oldbrew /usr/local/bin/brew
+end
+
+# Local Path Setup
+
 set -x PATH . $HOME/bin $PATH
 
-# for pip executables
-if [ -r /usr/local/opt/python/libexec/bin ]
+# for brew-installed Python
+if [ -r /opt/homebrew/opt/python/libexec/bin ]
+    set -x PATH /opt/homebrew/opt/python/libexec/bin $PATH
+else if [ -r /usr/local/opt/python/libexec/bin ]
     set -x PATH /usr/local/opt/python/libexec/bin $PATH
 end
 
@@ -30,9 +41,9 @@ if [ -r ~/go/bin ]
     set -x PATH $PATH $HOME/go/bin
 end
 
+# for locally installed python packages
 set -U PYTHONBASE (python -m site --user-base 2>/dev/null)
 
-# locally installed python packages
 if [ -r $PYTHONBASE/bin ]
     set -x PATH $PATH $PYTHONBASE/bin
 end
