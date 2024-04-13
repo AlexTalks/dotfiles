@@ -42,6 +42,10 @@ if [ -r ~/go/bin ]
 end
 
 # for locally installed python packages
+if [ -r $HOME/.local/bin ]
+    set -x PATH $PATH $HOME/.local/bin
+end
+
 set -U PYTHONBASE (python -m site --user-base 2>/dev/null)
 
 if [ -r $PYTHONBASE/bin ]
@@ -54,12 +58,13 @@ if [ -r ~/.dotfiles/bin ]
 end
 
 # NOTE: place(s) where new installs are located:
+## /opt/homebrew/bin    // Apple Silicon brew installs on MacOS
 ## /usr/local/bin       // local installs, by user
 ## /usr/bin             // system installs, by root
 
 # Aliases
 alias cdb 'prevd'
-alias pubkey "more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias pubkey "more ~/.ssh/id_ed25519.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
 function psef -d "show running processes with the given name"
 	ps -ef | head -1
