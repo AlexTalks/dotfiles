@@ -2,15 +2,10 @@
 # Alex Sarkesian's .localrc
 #
 ############################################
-####    LOCAL-SPECIFIC SETTINGS       ####
+####      LOCAL-SPECIFIC SETTINGS       ####
 ############################################
 
-if [[ `uname -v | grep -e "14\.04.*Ubuntu"` ]]; then
-    alias pbcopy='DISPLAY=":0" xclip -selection clipboard'
-    alias pbpaste='DISPLAY=":0" xclip -selection clipboard -o'
-
-    export IBUS_ENABLE_SYNC_MODE=1
-fi
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 is_nth_tty() {
     python -c "from __future__ import print_function; import os, sys; print(int(''.join([c if c.isdigit() else '' for c in os.ttyname(sys.stdin.fileno())])) % $1)"

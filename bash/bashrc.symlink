@@ -18,8 +18,7 @@ fi
 # Aliases
 if [ "`uname -s`" == "Darwin" ]; then
 	alias ls="ls -G"
-	alias console='/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal'
-        alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+	alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 else
 	alias ls="ls --color"
 fi
@@ -28,68 +27,6 @@ alias grep="grep --color"
 alias less="less -r"
 alias xterm='xterm -ls'
 alias cdb='cd $OLDPWD'
-
-# GVIM Wrapper!
-# Usage: gvim [option] [file...]  open files, tabbed, in a shared window (default one per terminal)
-# Options: (only one can be used)
-#  -d, --dir                Open files in a window specific to the current working directory
-#  -n, --normal             Execute command without server arguments
-#  -s, --server <name>      Open files in the window named <name>
-#  --print                  Print command with full arguments
-#  --usage                  Print this message and exit
-vim-gui-server() {
-    local PROGRAM="$1"
-    local BIN=$(which $PROGRAM)
-    local NAME="`tty`"
-    shift
-
-    if [ "$1" == "-n" ] || [ "$1" == "--normal" ]; then
-        shift
-        eval "$BIN $@"
-        return $?
-    fi
-
-    if [ "$1" == "--print" ]; then
-        local BIN="echo $BIN"
-        shift
-    fi
-
-    if [ "$1" == "-d" ] || [ "$1" == "--dir" ]; then
-        local NAME="`pwd`"
-        shift
-    elif [ "$1" == "-s" ] || [ "$1" == "--server" ]; then
-        local NAME="$2"
-        shift 2
-    fi
-
-    if [ "$1" == "--usage" ]; then
-        echo "Usage: $PROGRAM [option] [file...]  open files, tabbed, in a shared window (default one per terminal)"
-        echo "Options: (only one can be used)"
-        echo " -d, --dir                Open files in a window specific to the current working directory"
-        echo " -n, --normal             Execute command without server arguments"
-        echo " -s, --server <name>      Open files in the window named <name>"
-        echo " --print                  Print command with full arguments"
-        echo " --usage                  Print this message and exit"
-        return 1
-    fi
-
-    local SERVERNAME="$PROGRAM $NAME"
-    local VIM_ARGS="--servername \"$SERVERNAME\""
-    $PROGRAM --serverlist | grep -q -i "$SERVERNAME"
-    if [ $? -eq 0 ]; then
-        if [ $# -ge 1 ]; then
-            local VIM_ARGS="$VIM_ARGS --remote-tab-silent"
-        else
-            local VIM_ARGS="$VIM_ARGS --remote-send \"<C-\><C-N>:call remote_foreground(\\\"$SERVERNAME\\\")<CR>\""
-        fi
-    fi
-
-    local cmd="$BIN $VIM_ARGS $@"
-    eval $cmd
-    return $?
-}
-
-alias gvim="vim-gui-server gvim"
 
 # debian specific commands
 if [ -e /etc/debian_version ]; then
@@ -118,11 +55,4 @@ if [ -r /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion
 else 
     [ -r /etc/bash_completion ] && source /etc/bash_completion
-fi
-
-# Python startup
-export PYTHONSTARTUP=$HOME/.pythonrc
-
-if [[ -a ~/.bashrc_bootstrap ]]; then
-  source ~/.bashrc_bootstrap
 fi

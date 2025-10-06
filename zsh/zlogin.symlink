@@ -1,0 +1,9 @@
+#
+# Alex Sarkesian's .zlogin
+#
+
+##### MESSAGE OF THE DAY! #####
+if [ -n "$MOTD" ]; then
+    eval $MOTD
+fi
+##### MESSAGE OF THE DAY! #####

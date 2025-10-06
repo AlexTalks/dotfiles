@@ -13,7 +13,7 @@ then
 
   if [ "$(uname)" == "Linux" ] && [ `which apt-get` ]; then
     echo "  Installing fortune via apt-get."
-    sudo apt-get install -y --no-install-recommends fortune
+    sudo apt-get install -y --no-install-recommends fortune fortunes
   fi
 fi
 

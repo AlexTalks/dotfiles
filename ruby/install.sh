@@ -12,10 +12,10 @@ then
     echo "  Installing Ruby via apt-get."
     sudo apt-get install -y --no-install-recommends ruby
   fi
+fi
 
-  if test $(which gem); then
-    gem install --user-install cowsay lolcat
-  fi
+if test $(which gem); then
+  gem install --user-install cowsay lolcat
 fi
 
 exit 0
