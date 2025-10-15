@@ -61,7 +61,9 @@ set -g @tpm_plugins '                     \
 '
 
 set -g @resurrect-capture-pane-contents 'on'
-set -g @continuum-restore 'on'
+
+# Uncomment to enable tmux restore on startup
+#set -g @continuum-restore 'on'
 
 run '~/.tmux/plugins/tpm/tpm'
 
@@ -69,3 +71,5 @@ setw -g mode-keys vi
 
 bind-key -n "M-{" previous-window
 bind-key -n "M-}" next-window
+
+setw -g xterm-keys off
