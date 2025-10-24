@@ -168,8 +168,14 @@ install_fish_themes() {
 
 setup_gitconfig
 install_dotfiles
-install_fish_config
-install_fish_themes
+
+# Avoiding fish configuration, for now, in favor of exclusive use of zsh.
+#install_fish_config
+#install_fish_themes
+
+if [[ `basename $SHELL` != "zsh" ]]; then
+  info "configured for zsh, run \"sudo chsh -s \$(which zsh) $USER\" to switch shells."
+fi
 
 echo ''
 echo '  All installed!'
