@@ -86,6 +86,7 @@ alias gitp='git --no-pager'
 alias jsoncolor='jq --raw-input "fromjson?" -c --color-output'
 
 export LESS="-SRXF"
+export EDITOR=vim
 
 ### VISUAL CUSTOMISATION ### 
 
