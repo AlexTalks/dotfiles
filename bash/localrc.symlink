@@ -32,7 +32,7 @@ reset_motd() {
     if type fortune &> /dev/null; then
         local MOTD2="fortune"
         if type cowsay &> /dev/null; then
-            local MOTD2="cowsay -f random \"`$MOTD2`\""
+            local MOTD2="fortune | cowsay -f random"
         fi
 
         if type lolcat &> /dev/null; then
